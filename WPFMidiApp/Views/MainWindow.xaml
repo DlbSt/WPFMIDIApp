@@ -1,0 +1,70 @@
+﻿<Window x:Class="WPFMidiApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behaviors="clr-namespace:WPFMidiApp.Behaviors"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:prism="http://prismlibrary.com/"
+        Title="{Binding Title}"
+        Width="800"
+        Height="600"
+        MinWidth="800"
+        MinHeight="600"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="0,0,5,0"
+                  Padding="5"
+                  Header="Input Devices">
+            <ListBox ItemsSource="{Binding InputDevices, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        <GroupBox Grid.Row="0"
+                  Grid.Column="1"
+                  Padding="5"
+                  Header="Output Devices">
+            <ListBox ItemsSource="{Binding OutputDevices, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        <GroupBox Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Padding="5"
+                  Header="Messages">
+            <TextBox AcceptsReturn="True"
+                     IsReadOnly="True"
+                     Text="{Binding Messages, Delay=500, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Visible">
+                <i:Interaction.Behaviors>
+                    <behaviors:TextBoxCaretIndexBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
+        </GroupBox>
+    </Grid>
+</Window>
